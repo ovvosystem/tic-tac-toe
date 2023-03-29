@@ -61,13 +61,23 @@ def checkWin(grid):
     else:
         return None
 
+def checkDraw(grid):
+    for row in grid:
+        for element in row:
+            if element == "X" or element == "O":
+                continue
+            return False
+    return True
+
 def tictactoe():
     grid = createGrid()
     player = 'X'
     winner = None
 
     while winner == None:
-        player = swapPlayer(player)
+        if checkDraw(grid):
+            break
+
         nextTurn(grid, player)
         spot = input("Input spot: ")
 
@@ -75,9 +85,13 @@ def tictactoe():
             print("Not a valid spot")
             continue
         
+        player = swapPlayer(player)
         winner = checkWin(grid)
 
-    print("Winner is", winner)
+    if winner == None:
+        print("Draw!")
+    else:
+        print("Winner is player", winner)
 
 
 tictactoe()
